@@ -73,6 +73,10 @@ flutter:
       - assets/Mask Group.png
       - assets/Mask1.png
       - assets/Group 6.png
+      - assets/Group 41.png
+      - assets/Security Safe.png
+      - assets/visa-logo.png
+      - assets/amex(7).png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

@@ -17,84 +17,56 @@ class _Wallets extends State {
   Widget build(BuildContext context) {
     double largeurEcran = MediaQuery.of(context).size.width;
     double hauteurEcran = MediaQuery.of(context).size.height;
-    return /*Padding(
-      padding: EdgeInsets.all(20),
-      child: SingleChildScrollView(
-        child:*/ Column(
-      children: [
-        SizedBox(
-          height: largeurEcran * 0.4 - 20,
-          width: largeurEcran - 40,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                height: largeurEcran * 0.4 - 20,
-                width: largeurEcran * 0.5 - 45,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+    return SingleChildScrollView(
+      child: Column(
+        spacing: 15,
+        children: [
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                Container(
+                  height: hauteurEcran*0.3,
+                  child: CreditCardUi(
+                    cardHolderFullName: 'John Doe',
+                    cardNumber: '1234567812345678',
+                    validFrom: '01/23',
+                    validThru: '01/28',
+                    topLeftColor: Colors.blue,
+                    doesSupportNfc: true,
+                    placeNfcIconAtTheEnd: true,
+                    cardType: CardType.other,
+                    cardProviderLogo: FlutterLogo(),
+                    cardProviderLogoPosition: CardProviderLogoPosition.left,
+                    showBalance: true,
+                    balance: 128.32434343,
+                    autoHideBalance: true,
+                    enableFlipping: true,
+                    cvvNumber: '123',
+                  ),
                 ),
-                child: CreditCardUi(
-                  width: largeurEcran * 0.5 - 45,
-                  cardHolderFullName: 'John Doe',
-                  cardNumber: '1234567812345678',
-                  validFrom: '01/23',
-                  validThru: '01/28',
-                  topLeftColor: Colors.blue,
-                  doesSupportNfc: true,
-                  placeNfcIconAtTheEnd: true,
-                  cardType: CardType.debit,
-                  cardProviderLogo: FlutterLogo(),
-                  cardProviderLogoPosition: CardProviderLogoPosition.right,
-                  showBalance: true,
-                  balance: 128.32434343,
-                  autoHideBalance: true,
-                  enableFlipping: true,
-                  cvvNumber: '123',
-                ),
-              ),
-              Container(
-                height: largeurEcran * 0.4 - 20,
-                width: largeurEcran * 0.5 - 45,
-                decoration: BoxDecoration(
-                  color: Colors.black87,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        ListTile(
-          title: Text(
-            'Total Spending',
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+          ListTile(
+            title: Text(
+              'Total Spending',
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+            ),
           ),
-        ),
 
-        SizedBox(
-          height: hauteurEcran * 0.5,
-          child: CreditCardUi(
-            cardHolderFullName: 'John Doe',
-            cardNumber: '1234567812345678',
-            validFrom: '01/23',
-            validThru: '01/28',
-            topLeftColor: Colors.blue,
-            doesSupportNfc: true,
-            placeNfcIconAtTheEnd: true,
-            cardType: CardType.debit,
-            cardProviderLogo: FlutterLogo(),
-            cardProviderLogoPosition: CardProviderLogoPosition.right,
-            showBalance: true,
-            balance: 128.32434343,
-            autoHideBalance: true,
-            enableFlipping: true, // 👈 Enables the flipping
-            cvvNumber:
-                '123', // 👈 CVV number to be shown on the back of the card
+          NavigationBar(
+            destinations: [
+              Text('Day', style: TextStyle(fontSize: 16)),
+              Text('Week', style: TextStyle(fontSize: 16)),
+              Text('Month', style: TextStyle(fontSize: 16)),
+              Text('Year', style: TextStyle(fontSize: 16)),
+            ],
+            indicatorColor: Colors.black,
+            shadowColor: const Color.fromARGB(255, 230, 225, 225),
           ),
-        ),
-      ],
+        ],
+      ),
     );
-    /*   ),
-    );*/
   }
 }

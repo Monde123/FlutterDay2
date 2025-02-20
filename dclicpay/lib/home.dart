@@ -254,9 +254,11 @@ class _MyHome extends State {
                 GestureDetector(
                   onTap: () {
                     showModalBottomSheet(
-                      context: context ,
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: const Color.fromARGB(255, 202, 200, 200), 
                       builder: (context) {
-                        return SendPage();
+                        return SendMoneyPage();
                       },
                     );
                   },
@@ -271,10 +273,7 @@ class _MyHome extends State {
                       mainAxisAlignment: MainAxisAlignment.center,
                       spacing: 5,
                       children: [
-                        CircleAvatar(
-                          radius: 16,
-                          backgroundImage: AssetImage('assets/money-send.png'),
-                        ),
+                        Image.asset('assets/money-send.png'),
                         Text(
                           'Send',
                           style: TextStyle(
@@ -297,10 +296,7 @@ class _MyHome extends State {
                     mainAxisAlignment: MainAxisAlignment.center,
                     spacing: 5,
                     children: [
-                      CircleAvatar(
-                        radius: 18,
-                        foregroundImage: AssetImage('assets/money-recive.png'),
-                      ),
+                      Image.asset('assets/money-recive.png'),
                       Text(
                         'Receive',
                         style: TextStyle(
@@ -324,10 +320,7 @@ class _MyHome extends State {
                     // mainAxisAlignment: MainAxisAlignment.center,
                     spacing: 5,
                     children: [
-                      CircleAvatar(
-                        radius: 16,
-                        backgroundImage: AssetImage('assets/Group 6.png'),
-                      ),
+                      Image.asset('assets/Group 6.png'),
                       Text(
                         'Rewards',
                         style: TextStyle(

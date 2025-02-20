@@ -19,17 +19,29 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyApp extends State<MyApp> {
+   int tabIndex = 0;
+    final pages = [MyHome(), Wallets(), Gift(), ProfilPage()];
+   
+    void onItemTapped(int index) {
+      setState(() {
+        tabIndex = index;
+      });
+    }
   @override
   Widget build(BuildContext context) {
-    final pages = [MyHome(), Wallets(), Gift(), ProfilPage()];
-    int tabIndex = 1;
+   
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: MyHomeAppBar()),
-        body: pages[tabIndex],
+        body: Center(child: pages[tabIndex]),
         bottomNavigationBar: BottomNavigationBar(
           items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              activeIcon: Icon(Icons.home),
+              label: 'Home',
+            ),
             BottomNavigationBarItem(
               icon: Icon(Icons.account_balance_wallet_outlined),
               label: 'wallet',
@@ -45,13 +57,11 @@ class _MyApp extends State<MyApp> {
           ],
 
           currentIndex: tabIndex,
-          onTap: (index) {
-            setState(() {
-              tabIndex = index;
-            });
-          },
+
           unselectedItemColor: const Color.fromARGB(221, 128, 127, 127),
           selectedItemColor: Colors.blue,
+
+          onTap: onItemTapped,
         ),
       ),
     );

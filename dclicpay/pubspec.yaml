@@ -37,10 +37,13 @@ dependencies:
   
   fl_chart: ^0.70.2
   u_credit_card: ^1.4.0
-
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  hive_generator: ^2.0.0
+  build_runner: ^2.1.7 
     
 
   # The "flutter_lints" package below contains a set of recommended lints to

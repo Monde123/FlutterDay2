@@ -1,9 +1,9 @@
 // main.dart
 
-import 'package:dclicpay/gift.dart';
-import 'package:dclicpay/home.dart';
-import 'package:dclicpay/profil.dart';
-import 'package:dclicpay/wallets.dart';
+import 'package:dclicpay/pages/gift.dart';
+import 'package:dclicpay/pages/home.dart';
+import 'package:dclicpay/pages/profil.dart';
+import 'package:dclicpay/pages/wallets.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,22 +19,27 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyApp extends State<MyApp> {
-   int tabIndex = 0;
-    final pages = [MyHome(), Wallets(), Gift(), ProfilPage()];
-   
-    void onItemTapped(int index) {
-      setState(() {
-        tabIndex = index;
-      });
-    }
+  int tabIndex = 0;
+  final pages = [MyHome(), Wallets(), Gift(), ProfilPage()];
+
+  void onItemTapped(int index) {
+    setState(() {
+      tabIndex = index;
+    });
+  }
+
+  final appBarListe = [
+    MyHomeAppBar(),
+    WalletsAppBar(),
+    MyHomeAppBar(),
+    MyHomeAppBar(),
+  ];
   @override
   Widget build(BuildContext context) {
-   
-
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: MyHomeAppBar()),
-        body: Center(child: pages[tabIndex]),
+        appBar: AppBar(title: appBarListe[tabIndex]),
+        body: pages[tabIndex],
         bottomNavigationBar: BottomNavigationBar(
           items: [
             BottomNavigationBarItem(

@@ -1,5 +1,6 @@
-// sendpage.dart
+// pages/sendpage.dart
 
+import 'package:dclicpay/pages/home.dart';
 import 'package:flutter/material.dart';
 
 class SendMoneyPage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _SendMoneyPage extends State {
   double montant = 25.00;
   final cardIcone = [
     'assets/visa-logo.png',
-    ' assets/amex(7).png',
+    'assets/amex(7).png',
     'assets/Group 41.png',
   ];
   final nomIcone = ['Virtual id card', 'Physical Id card', 'Physical Id card'];
@@ -156,7 +157,9 @@ class _SendMoneyPage extends State {
                 TextField(
                   decoration: InputDecoration(
                     fillColor: Colors.white,
+
                     filled: true,
+                    enabled: true,
                     border: OutlineInputBorder(
                       borderSide: BorderSide(width: 5),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -167,14 +170,17 @@ class _SendMoneyPage extends State {
                 ),
                 SizedBox(
                   height: 60,
-                  child: Row(
-                    spacing: 10,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Image.asset('assets/Mask1.png'),
-                      Image.asset('assets/Mask1.png'),
-                      Image.asset('assets/Mask1.png'),
-                    ],
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: listeUtilisateurs.length,
+                    itemBuilder: (context, index) {
+                      index = 1;
+                      var user = listeUtilisateurs[index];
+                      return Container(
+                        padding: EdgeInsets.all(10),
+                        child: Image.asset(user.usersProfil),
+                      );
+                    },
                   ),
                 ),
                 Row(
@@ -199,12 +205,30 @@ class _SendMoneyPage extends State {
                     spacing: 20,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        '\$'
-                        '$montant',
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w700,
+                      TextField(
+                        /*  onTap: () {
+                          setState(() {
+                             String ? entree=  TextEditingController().toString(),
+                            montant =; 
+                          }*/
+                        //);
+                        // },
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                          enabled: true,
+                          hintText:
+                              '\$'
+                              '$montant',
+                          hintStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                       Row(
@@ -260,6 +284,35 @@ class _SendMoneyPage extends State {
                   ],
                 ),
                 GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      montant = 25.00;
+                      user1?.envoyer(montant);
+                    });
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          backgroundColor: Colors.green,
+                          content: Row(
+                            children: [
+                              Icon(
+                                Icons.check_box_outlined,
+                                color: Colors.green,
+                              ),
+                              Text(
+                                'transfert effectué',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
                   child: Container(
                     height: 50,
                     width: largeurEcran - 40,

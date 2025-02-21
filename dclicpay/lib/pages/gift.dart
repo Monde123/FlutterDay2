@@ -13,6 +13,6 @@ class Gift extends StatefulWidget {
 class _Gift extends State {
   @override
   Widget build(BuildContext context) {
-    return Text('Gift Page');
+    return Center(child:  Text('Gift Page'),);
   }
 }

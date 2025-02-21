@@ -1,6 +1,10 @@
-// home.dart
-import 'package:dclicpay/sendpage.dart';
+// pages/home.dart
+import 'package:dclicpay/pages/sendpage.dart';
 import 'package:flutter/material.dart';
+import 'package:dclicpay/utilisateur/users.dart';
+
+var user1 = UtilisateurDB.getUtilisateur('moise@gmail.com');
+var listeUtilisateurs = UtilisateurDB.getTousLesUtilisateurs();
 
 class MyHomeAppBar extends StatelessWidget {
   const MyHomeAppBar({super.key});
@@ -16,10 +20,14 @@ class MyHomeAppBar extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 24,
-                backgroundImage: AssetImage('assets/Mask Group.png'),
+
+                backgroundImage: AssetImage(user1!.usersProfil),
               ),
+
               Text(
-                'Hello Sacof!',
+                'Hello'
+                '${user1?.mail}'
+                '!',
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
               ),
             ],
@@ -54,8 +62,9 @@ class _MyHome extends State {
     var listeUtilisateur = SizedBox(
       height: hauteurEcran * 0.4,
       child: ListView.builder(
-        itemCount: 10,
+        itemCount: listeUtilisateurs.length,
         itemBuilder: (context, index) {
+          var user = listeUtilisateurs[index];
           return SizedBox(
             height: 60,
             child: Row(
@@ -68,7 +77,7 @@ class _MyHome extends State {
                     children: [
                       CircleAvatar(
                         radius: 24,
-                        backgroundImage: AssetImage('assets/Mask1.png'),
+                        backgroundImage: AssetImage(user.usersProfil),
                       ),
                       SizedBox(
                         height: 50,
@@ -77,7 +86,7 @@ class _MyHome extends State {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              'Miradie',
+                              user.nom,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16,
@@ -104,7 +113,7 @@ class _MyHome extends State {
                       Text(
                         '+'
                         '\$'
-                        '1160',
+                        '${user.solde}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -168,7 +177,8 @@ class _MyHome extends State {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Added card:05',
+                            '${user1!.nom}'
+                            'acount',
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.white,
@@ -193,7 +203,7 @@ class _MyHome extends State {
                         children: [
                           Text(
                             '\$'
-                            '''6,190.00''',
+                            '${user1!.solde}',
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w600,
@@ -256,7 +266,7 @@ class _MyHome extends State {
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      backgroundColor: const Color.fromARGB(255, 202, 200, 200), 
+                      backgroundColor: const Color.fromARGB(255, 202, 200, 200),
                       builder: (context) {
                         return SendMoneyPage();
                       },

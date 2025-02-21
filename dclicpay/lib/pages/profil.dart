@@ -13,6 +13,6 @@ class ProfilPage extends StatefulWidget {
 class _ProfilPage extends State {
   @override
   Widget build(BuildContext context) {
-    return Text('Wallets Page');
+    return Center(child: Text('Profil Page'));
   }
 }

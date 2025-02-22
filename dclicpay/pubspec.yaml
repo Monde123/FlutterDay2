@@ -39,6 +39,7 @@ dependencies:
   u_credit_card: ^1.4.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  path_provider: ^2.0.11
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -80,6 +81,7 @@ flutter:
       - assets/Security Safe.png
       - assets/visa-logo.png
       - assets/amex(7).png
+      - assets/dclic.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

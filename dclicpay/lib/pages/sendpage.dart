@@ -2,6 +2,7 @@
 
 import 'package:dclicpay/pages/home.dart';
 import 'package:flutter/material.dart';
+import 'package:dclicpay/utilisateur/users.dart';
 
 class SendMoneyPage extends StatefulWidget {
   const SendMoneyPage({super.key});
@@ -15,6 +16,8 @@ class SendMoneyPage extends StatefulWidget {
 class _SendMoneyPage extends State {
   int selectedIndex = 0;
   double montant = 25.00;
+
+  String utilisateurNom = '';
   final cardIcone = [
     'assets/visa-logo.png',
     'assets/amex(7).png',
@@ -25,11 +28,7 @@ class _SendMoneyPage extends State {
   Widget build(BuildContext context) {
     double largeurEcran = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
-      child: /* Container(
-        height: hauteurEcran*0.8,
-        padding: EdgeInsets.only(right: 20, left: 20, bottom: 20),
-        color: const Color.fromARGB(255, 231, 228, 228),
-        child:*/ Column(
+      child: Column(
         spacing: 10,
         children: [
           Container(
@@ -157,9 +156,9 @@ class _SendMoneyPage extends State {
                 TextField(
                   decoration: InputDecoration(
                     fillColor: Colors.white,
-
+                    labelText: utilisateurNom,
                     filled: true,
-                    enabled: true,
+                    enabled: false,
                     border: OutlineInputBorder(
                       borderSide: BorderSide(width: 5),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -174,11 +173,17 @@ class _SendMoneyPage extends State {
                     scrollDirection: Axis.horizontal,
                     itemCount: listeUtilisateurs.length,
                     itemBuilder: (context, index) {
-                      index = 1;
-                      var user = listeUtilisateurs[index];
-                      return Container(
-                        padding: EdgeInsets.all(10),
-                        child: Image.asset(user.usersProfil),
+                      var user = listeUtilisateurs[index + 1];
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            utilisateurNom = user.nom;
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          child: Image.asset(user.usersProfil),
+                        ),
                       );
                     },
                   ),
@@ -206,13 +211,9 @@ class _SendMoneyPage extends State {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextField(
-                        /*  onTap: () {
-                          setState(() {
-                             String ? entree=  TextEditingController().toString(),
-                            montant =; 
-                          }*/
-                        //);
-                        // },
+                        onChanged: (val) {
+                          montant = double.parse(val);
+                        },
                         textAlign: TextAlign.center,
                         keyboardType: TextInputType.numberWithOptions(
                           decimal: true,
@@ -287,7 +288,14 @@ class _SendMoneyPage extends State {
                   onTap: () {
                     setState(() {
                       montant = 25.00;
-                      user1?.envoyer(montant);
+                      var otherUser = UtilisateurBase.getUtilisateurNom(
+                        utilisateurNom,
+                      );
+                      if (otherUser != null && user1 != null) {
+                        user1!.transaction(montant, true);
+
+                        otherUser.transaction(montant, false);
+                      }
                     });
                     showDialog(
                       context: context,
@@ -298,7 +306,7 @@ class _SendMoneyPage extends State {
                             children: [
                               Icon(
                                 Icons.check_box_outlined,
-                                color: Colors.green,
+                                color: Colors.white,
                               ),
                               Text(
                                 'transfert effectué',

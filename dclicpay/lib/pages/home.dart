@@ -3,11 +3,12 @@ import 'package:dclicpay/pages/sendpage.dart';
 import 'package:flutter/material.dart';
 import 'package:dclicpay/utilisateur/users.dart';
 
-var user1 = UtilisateurDB.getUtilisateur('moise@gmail.com');
-var listeUtilisateurs = UtilisateurDB.getTousLesUtilisateurs();
+var user1 = UtilisateurBase.getUtilisateur('moise@gmail.com');
+var listeUtilisateurs = UtilisateurBase.getTousLesUtilisateurs();
 
 class MyHomeAppBar extends StatelessWidget {
   const MyHomeAppBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -18,18 +19,28 @@ class MyHomeAppBar extends StatelessWidget {
           child: Row(
             spacing: 10,
             children: [
-              CircleAvatar(
-                radius: 24,
+              user1?.usersProfil == null
+                  ? CircleAvatar(
+                    radius: 24,
 
-                backgroundImage: AssetImage(user1!.usersProfil),
-              ),
+                    backgroundImage: AssetImage('MAsk1.png'),
+                  )
+                  : CircleAvatar(
+                    radius: 24,
 
-              Text(
-                'Hello'
-                '${user1?.mail}'
-                '!',
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-              ),
+                    backgroundImage: AssetImage(user1!.usersProfil),
+                  ),
+              user1?.nom == null
+                  ? Text(
+                    'Sacof account',
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                  )
+                  : Text(
+                    'Hello'
+                    ' ${user1?.nom}'
+                    '!',
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                  ),
             ],
           ),
         ),
@@ -61,10 +72,13 @@ class _MyHome extends State {
     double hauteurEcran = MediaQuery.of(context).size.height;
     var listeUtilisateur = SizedBox(
       height: hauteurEcran * 0.4,
+
       child: ListView.builder(
         itemCount: listeUtilisateurs.length,
+
         itemBuilder: (context, index) {
           var user = listeUtilisateurs[index];
+
           return SizedBox(
             height: 60,
             child: Row(
@@ -176,15 +190,25 @@ class _MyHome extends State {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            '${user1!.nom}'
-                            'acount',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
+                          user1?.nom != null
+                              ? Text(
+                                '${user1?.nom}'
+                                'acount',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              )
+                              : Text(
+                                'Sacof'
+                                'acount',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
                           Text(
                             'Added card:05',
                             style: TextStyle(
@@ -201,15 +225,25 @@ class _MyHome extends State {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            '\$'
-                            '${user1!.solde}',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
+                          user1?.solde != null
+                              ? Text(
+                                '\$'
+                                '${user1?.solde}',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              )
+                              : Text(
+                                '\$'
+                                '100',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
                           Text(
                             'Total balance',
                             style: TextStyle(

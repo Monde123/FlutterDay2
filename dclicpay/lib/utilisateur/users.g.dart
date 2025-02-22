@@ -1,4 +1,3 @@
-// utilisateur/users.g.dart
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'users.dart';
@@ -18,17 +17,20 @@ class UtilisateurAdapter extends TypeAdapter<Utilisateur> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Utilisateur(
-      fields[0] as String,
-      fields[1] as double,
-      fields[2] as String,
-      fields[3] as String,
-    );
+      nom: fields[0] as String,
+      solde: fields[1] as double,
+      usersProfil: fields[2] as String,
+      mail: fields[3] as String,
+    )
+      ..depenses = (fields[4] as List).cast<double>()
+      ..recettes = (fields[5] as List).cast<double>()
+      ..compteUsers = fields[6] as int;
   }
 
   @override
   void write(BinaryWriter writer, Utilisateur obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.nom)
       ..writeByte(1)
@@ -36,7 +38,13 @@ class UtilisateurAdapter extends TypeAdapter<Utilisateur> {
       ..writeByte(2)
       ..write(obj.usersProfil)
       ..writeByte(3)
-      ..write(obj.mail);
+      ..write(obj.mail)
+      ..writeByte(4)
+      ..write(obj.depenses)
+      ..writeByte(5)
+      ..write(obj.recettes)
+      ..writeByte(6)
+      ..write(obj.compteUsers);
   }
 
   @override

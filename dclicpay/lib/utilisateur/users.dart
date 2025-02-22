@@ -1,15 +1,12 @@
 // utilisateur/users.dart
-import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'dart:io';
+// utilisateur/users.dart
 
-part 'users.g.dart'; //
+import 'package:hive/hive.dart';
+
+part 'users.g.dart';
 
 @HiveType(typeId: 1)
 class Utilisateur extends HiveObject {
-  Utilisateur(this.nom, this.solde, this.usersProfil, this.mail);
-
-  //propriétes
   @HiveField(0)
   String nom;
 
@@ -22,61 +19,69 @@ class Utilisateur extends HiveObject {
   @HiveField(3)
   String mail;
 
-  // Méthodes
-  void recevoir(double montant) {
-    solde += montant;
+  @HiveField(4)
+  List<double> depenses = [];
+
+  @HiveField(5)
+  List<double> recettes = [];
+
+  transaction(double montant, bool estdepense) {
+    if (estdepense == true) {
+      if (solde >= montant) {
+        depenses.add(montant);
+        solde = solde - montant;
+      }
+    } else {
+      solde = solde + montant;
+      recettes.add(montant);
+      save();
+      return solde;
+    }
     save();
   }
 
-  void envoyer(double montant) {
-    solde >= montant ? solde -= montant : Text('Solde insufisant');
-    save();
-  }
+  @HiveField(6)
+  int compteUsers = DateTime.now().millisecondsSinceEpoch;
+  Utilisateur({
+    required this.nom,
+    required this.solde,
+    required this.usersProfil,
+    required this.mail,
+  });
 }
 
-class UtilisateurDB {
-  static late Box<Utilisateur> usersBox;
+class UtilisateurBase {
+  static Box<Utilisateur>? usersBox;
 
   static Future<void> init() async {
-    var path = Directory.current.path;
-    Hive
-      ..init(path)
-      ..registerAdapter(UtilisateurAdapter());
-
     usersBox = await Hive.openBox<Utilisateur>('utilisateurs');
+    if (usersBox!.isEmpty) {
+      var utilisateur1 = Utilisateur(
+        nom: 'Moïse',
+        solde: 1000.0,
+        usersProfil: 'assets/Mask Group.png',
+        mail: 'moise@gmail.com',
+      );
+      var utilisateur2 = Utilisateur(
+        nom: 'Marie',
+        solde: 500.00,
+        usersProfil: 'assets/Mask1.png',
+        mail: 'marie@gmail.com',
+      );
+      await usersBox!.put(utilisateur1.mail, utilisateur1);
+      await usersBox!.put(utilisateur2.mail, utilisateur2);
+    }
   }
 
-  //ajout d'utilisateur
-  static Future<void> ajouterUtilisateur(Utilisateur user) async {
-    await usersBox.put(user.mail, user);
-  }
-
-  // Récupérer un utilisateur par son email
   static Utilisateur? getUtilisateur(String email) {
-    return usersBox.get(email);
+    return usersBox?.get(email);
   }
 
-  // Récupérer tous les utilisateurs
+  static Utilisateur? getUtilisateurNom(String nom) {
+    return usersBox?.get(nom);
+  }
+
   static List<Utilisateur> getTousLesUtilisateurs() {
-    return usersBox.values.toList();
+    return usersBox?.values.toList() ?? [];
   }
-}
-
-void main() async {
-  await UtilisateurDB.init();
-
-  var utilisateur1 = Utilisateur(
-    'Moïse',
-    1000.0,
-    'Mask Group.png',
-    'moise@gmail.com',
-  );
-  await UtilisateurDB.ajouterUtilisateur(utilisateur1);
-  var utilisateur2 = Utilisateur(
-    'Marie',
-    500.00,
-    'Mask1.png',
-    'marie@gmail.com',
-  );
-  await UtilisateurDB.ajouterUtilisateur(utilisateur2);
 }

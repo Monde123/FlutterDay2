@@ -5,8 +5,17 @@ import 'package:dclicpay/pages/home.dart';
 import 'package:dclicpay/pages/profil.dart';
 import 'package:dclicpay/pages/wallets.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'utilisateur/users.dart';
+import 'package:path_provider/path_provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final directory = await getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
+  Hive.registerAdapter(UtilisateurAdapter());
+  await UtilisateurBase.init();
   runApp(MyApp());
 }
 

@@ -1,4 +1,4 @@
-// chart.dart
+// packagesPages/chart.dart
 import 'package:fl_chart/fl_chart.dart';
 //import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:flutter/material.dart';
@@ -155,11 +155,11 @@ class _LineChartSample2State extends State<LineChartSample2> {
       minX: 0,
       maxX: 11,
       minY: 0,
-      maxY: 6,
+      maxY: 10,
       lineBarsData: [
         LineChartBarData(
           spots: const [
-            FlSpot(0, 3),
+            FlSpot(0, 4),
             FlSpot(2.6, 2),
             FlSpot(4.9, 5),
             FlSpot(6.8, 3.1),

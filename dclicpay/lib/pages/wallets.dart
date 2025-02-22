@@ -91,24 +91,22 @@ class _Wallets extends State<Wallets> {
                   ],
                 ),
               ),
-              Container(
-                child: Column(
-                  spacing: 8,
-                  children: [
-                    Text(
-                      'Shopping',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
+              Column(
+                spacing: 8,
+                children: [
+                  Text(
+                    'Shopping',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
                     ),
-                    Text(
-                      '\$'
-                      '2.85',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
+                  ),
+                  Text(
+                    '\$'
+                    '2.85',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
               ),
               Container(
                 padding: EdgeInsets.only(right: 20),

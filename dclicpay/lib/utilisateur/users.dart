@@ -19,10 +19,11 @@ class Utilisateur extends HiveObject {
   @HiveField(3)
   String mail;
 
-  @HiveField(4)
+  @HiveField(6)
+  int compteUsers = DateTime.now().millisecondsSinceEpoch;
+
   List<double> depenses = [];
 
-  @HiveField(5)
   List<double> recettes = [];
 
   transaction(double montant, bool estdepense) {
@@ -40,8 +41,6 @@ class Utilisateur extends HiveObject {
     save();
   }
 
-  @HiveField(6)
-  int compteUsers = DateTime.now().millisecondsSinceEpoch;
   Utilisateur({
     required this.nom,
     required this.solde,

@@ -21,16 +21,13 @@ class UtilisateurAdapter extends TypeAdapter<Utilisateur> {
       solde: fields[1] as double,
       usersProfil: fields[2] as String,
       mail: fields[3] as String,
-    )
-      ..depenses = (fields[4] as List).cast<double>()
-      ..recettes = (fields[5] as List).cast<double>()
-      ..compteUsers = fields[6] as int;
+    )..compteUsers = fields[6] as int;
   }
 
   @override
   void write(BinaryWriter writer, Utilisateur obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.nom)
       ..writeByte(1)
@@ -39,10 +36,6 @@ class UtilisateurAdapter extends TypeAdapter<Utilisateur> {
       ..write(obj.usersProfil)
       ..writeByte(3)
       ..write(obj.mail)
-      ..writeByte(4)
-      ..write(obj.depenses)
-      ..writeByte(5)
-      ..write(obj.recettes)
       ..writeByte(6)
       ..write(obj.compteUsers);
   }

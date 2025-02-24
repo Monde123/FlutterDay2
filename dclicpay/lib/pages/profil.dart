@@ -1,5 +1,6 @@
-// profil.dart
-import 'package:flutter/widgets.dart';
+// pages/profil.dart
+import 'package:dclicpay/utilisateur/add_utilisateur.dart';
+import 'package:flutter/material.dart';
 
 class ProfilPage extends StatefulWidget {
   const ProfilPage({super.key});
@@ -13,6 +14,29 @@ class ProfilPage extends StatefulWidget {
 class _ProfilPage extends State {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Profil Page'));
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Center(child: Text('Profil Page')),
+        Positioned(
+          bottom: 40,
+          right: 20,
+          child: FloatingActionButton(
+            child: Icon(Icons.add, color: Colors.blue),
+
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AjouterUtilisateurPage(),
+                ),
+              ).then((_) {
+                setState(() {}); // Rafraîchir la liste après ajout
+              });
+            },
+          ),
+        ),
+      ],
+    );
   }
 }

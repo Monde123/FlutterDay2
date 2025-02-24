@@ -5,6 +5,15 @@ import 'package:hive/hive.dart';
 
 part 'users.g.dart';
 
+@HiveType(typeId: 0)
+class Transaction extends HiveObject {
+  Transaction({required this.amount, required this.estDepense});
+  @HiveField(0)
+  double amount;
+  @HiveField(1)
+  bool estDepense;
+}
+
 @HiveType(typeId: 1)
 class Utilisateur extends HiveObject {
   @HiveField(0)
@@ -14,29 +23,24 @@ class Utilisateur extends HiveObject {
   double solde;
 
   @HiveField(2)
-  String usersProfil;
+  bool estHomme;
 
   @HiveField(3)
   String mail;
 
-  @HiveField(6)
   int compteUsers = DateTime.now().millisecondsSinceEpoch;
 
-  List<double> depenses = [];
+  @HiveField(4)
+  List<Transaction> transactions = [];
 
-  List<double> recettes = [];
+  late String usersProfil;
 
-  transaction(double montant, bool estdepense) {
-    if (estdepense == true) {
-      if (solde >= montant) {
-        depenses.add(montant);
-        solde = solde - montant;
-      }
+  void ajouterTransaction(Transaction transaction) async{
+    transactions.add(transaction);
+    if (transaction.estDepense) {
+      solde -= transaction.amount;
     } else {
-      solde = solde + montant;
-      recettes.add(montant);
-      save();
-      return solde;
+      solde += transaction.amount;
     }
     save();
   }
@@ -44,9 +48,17 @@ class Utilisateur extends HiveObject {
   Utilisateur({
     required this.nom,
     required this.solde,
-    required this.usersProfil,
+    required this.estHomme,
     required this.mail,
-  });
+  }) {
+    if (estHomme != true) {
+      usersProfil = 'assets/Mask1.png';
+    } else {
+      usersProfil = 'assets/Mask Group.png';
+    }
+    
+  }
+
 }
 
 class UtilisateurBase {
@@ -58,17 +70,20 @@ class UtilisateurBase {
       var utilisateur1 = Utilisateur(
         nom: 'Moïse',
         solde: 1000.0,
-        usersProfil: 'assets/Mask Group.png',
+        estHomme: true,
         mail: 'moise@gmail.com',
       );
       var utilisateur2 = Utilisateur(
         nom: 'Marie',
         solde: 500.00,
-        usersProfil: 'assets/Mask1.png',
+        estHomme: false,
         mail: 'marie@gmail.com',
       );
       await usersBox!.put(utilisateur1.mail, utilisateur1);
+      var transaction = Transaction(amount: 0, estDepense: false);
+      utilisateur1.ajouterTransaction(transaction);
       await usersBox!.put(utilisateur2.mail, utilisateur2);
+      utilisateur2.ajouterTransaction(transaction);
     }
   }
 

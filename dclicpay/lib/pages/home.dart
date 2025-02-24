@@ -5,12 +5,15 @@ import 'package:dclicpay/utilisateur/users.dart';
 
 var user1 = UtilisateurBase.getUtilisateur('moise@gmail.com');
 var listeUtilisateurs = UtilisateurBase.getTousLesUtilisateurs();
+List<Utilisateur> utilisateursFiltres = listeUtilisateurs.where((user) => user.nom != user1?.nom).toList();
+ 
 
 class MyHomeAppBar extends StatelessWidget {
   const MyHomeAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+      
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -65,6 +68,7 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHome extends State {
+   
   _MyHome();
   @override
   Widget build(BuildContext context) {
@@ -78,7 +82,7 @@ class _MyHome extends State {
 
         itemBuilder: (context, index) {
           var user = listeUtilisateurs[index];
-
+        
           return SizedBox(
             height: 60,
             child: Row(
@@ -124,17 +128,23 @@ class _MyHome extends State {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      
+                     
                       Text(
-                        '+'
+                        
                         '\$'
-                        '${user.solde}',
+                        '${user.transactions.last.amount}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
-
-                          color: Colors.green,
+                        
+                          color:  user.transactions.last.estDepense==true?  Colors.red:Colors.green,
+                      
                         ),
                       ),
+                         
+            
+
                       Text(
                         '22 h 45',
                         style: TextStyle(
@@ -192,7 +202,7 @@ class _MyHome extends State {
                         children: [
                           user1?.nom != null
                               ? Text(
-                                '${user1?.nom}'
+                                '${user1?.nom}  '
                                 'acount',
                                 style: TextStyle(
                                   fontSize: 14,
@@ -201,7 +211,7 @@ class _MyHome extends State {
                                 ),
                               )
                               : Text(
-                                'Sacof'
+                                'Sacof '
                                 'acount',
                                 style: TextStyle(
                                   fontSize: 14,

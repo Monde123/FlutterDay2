@@ -15,7 +15,7 @@ class SendMoneyPage extends StatefulWidget {
 
 class _SendMoneyPage extends State {
   int selectedIndex = 0;
-  double montant = 25.00;
+  double montant = 25.0;
 
   String utilisateurNom = '';
   final cardIcone = [
@@ -171,9 +171,10 @@ class _SendMoneyPage extends State {
                   height: 60,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: listeUtilisateurs.length,
+                    itemCount: utilisateursFiltres.length,
                     itemBuilder: (context, index) {
-                      var user = listeUtilisateurs[index + 1];
+                      var user = utilisateursFiltres[index];
+
                       return GestureDetector(
                         onTap: () {
                           setState(() {
@@ -182,6 +183,7 @@ class _SendMoneyPage extends State {
                         },
                         child: Container(
                           padding: EdgeInsets.all(10),
+
                           child: Image.asset(user.usersProfil),
                         ),
                       );
@@ -212,7 +214,9 @@ class _SendMoneyPage extends State {
                     children: [
                       TextField(
                         onChanged: (val) {
-                          montant = double.parse(val);
+                          setState(() {
+                            montant = double.parse(val);
+                          });
                         },
                         textAlign: TextAlign.center,
                         keyboardType: TextInputType.numberWithOptions(
@@ -222,7 +226,7 @@ class _SendMoneyPage extends State {
                           border: OutlineInputBorder(
                             borderSide: BorderSide.none,
                           ),
-                          enabled: true,
+                          enabled: false,
                           hintText:
                               '\$'
                               '$montant',
@@ -240,7 +244,7 @@ class _SendMoneyPage extends State {
                             onTap: () {
                               montant >= 0.5
                                   ? setState(() {
-                                    montant = montant - 0.5;
+                                    montant = montant - 0.1;
                                   })
                                   : Text(
                                     '$montant',
@@ -256,7 +260,7 @@ class _SendMoneyPage extends State {
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                montant = montant + 0.5;
+                                montant = montant + 0.1;
                               });
                             },
                             child: Icon(
@@ -285,17 +289,30 @@ class _SendMoneyPage extends State {
                   ],
                 ),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    var otherUser = UtilisateurBase.getUtilisateurNom(
+                      utilisateurNom,
+                    );
+                    if (otherUser != null &&
+                        user1 != null &&
+                        user1!.solde >= montant) {
+                      var user1Transaction = Transaction(
+                        amount: montant,
+                        estDepense: true,
+                      );
+                      user1!.ajouterTransaction(user1Transaction);
+                      await user1!.save();
+
+                      var otherUserTransaction = Transaction(
+                        amount: montant,
+                        estDepense: false,
+                      );
+                      otherUser.ajouterTransaction(otherUserTransaction);
+                      await otherUser.save();
+                    }
+                    UtilisateurBase.init;
                     setState(() {
                       montant = 25.00;
-                      var otherUser = UtilisateurBase.getUtilisateurNom(
-                        utilisateurNom,
-                      );
-                      if (otherUser != null && user1 != null) {
-                        user1!.transaction(montant, true);
-
-                        otherUser.transaction(montant, false);
-                      }
                     });
                     showDialog(
                       context: context,
@@ -303,13 +320,15 @@ class _SendMoneyPage extends State {
                         return AlertDialog(
                           backgroundColor: Colors.green,
                           content: Row(
+                            spacing: 8,
                             children: [
                               Icon(
                                 Icons.check_box_outlined,
                                 color: Colors.white,
                               ),
                               Text(
-                                'transfert effectué',
+                                'transfert réussi',
+
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.white,
@@ -317,6 +336,20 @@ class _SendMoneyPage extends State {
                               ),
                             ],
                           ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text(
+                                'Ok',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
                         );
                       },
                     );

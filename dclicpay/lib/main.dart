@@ -14,6 +14,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
+  Hive.registerAdapter(TransactionAdapter());
   Hive.registerAdapter(UtilisateurAdapter());
   await UtilisateurBase.init();
   runApp(MyApp());

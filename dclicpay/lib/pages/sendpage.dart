@@ -3,6 +3,7 @@
 import 'package:dclicpay/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:dclicpay/utilisateur/users.dart';
+import 'package:dclicpay/boxes.dart';
 
 class SendMoneyPage extends StatefulWidget {
   const SendMoneyPage({super.key});
@@ -16,7 +17,8 @@ class SendMoneyPage extends StatefulWidget {
 class _SendMoneyPage extends State {
   int selectedIndex = 0;
   double montant = 25.0;
-
+  double mont1 = 0.0;
+  var user1 = UtilisateurBase.getUtilisateur('moise@gmail.com');
   String utilisateurNom = '';
   final cardIcone = [
     'assets/visa-logo.png',
@@ -178,7 +180,7 @@ class _SendMoneyPage extends State {
                       return GestureDetector(
                         onTap: () {
                           setState(() {
-                            utilisateurNom = user.nom;
+                            utilisateurNom = user.mail;
                           });
                         },
                         child: Container(
@@ -214,8 +216,9 @@ class _SendMoneyPage extends State {
                     children: [
                       TextField(
                         onChanged: (val) {
+                          mont1 = double.parse(val);
                           setState(() {
-                            montant = double.parse(val);
+                            montant = mont1;
                           });
                         },
                         textAlign: TextAlign.center,
@@ -226,7 +229,7 @@ class _SendMoneyPage extends State {
                           border: OutlineInputBorder(
                             borderSide: BorderSide.none,
                           ),
-                          enabled: false,
+                          enabled: true,
                           hintText:
                               '\$'
                               '$montant',
@@ -290,9 +293,12 @@ class _SendMoneyPage extends State {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    var otherUser = UtilisateurBase.getUtilisateurNom(
+                    usersBox;
+                    // Expéditeur
+                    var otherUser = UtilisateurBase.getUtilisateur(
                       utilisateurNom,
-                    );
+                    ); // Destinataire
+
                     if (otherUser != null &&
                         user1 != null &&
                         user1!.solde >= montant) {
@@ -300,64 +306,62 @@ class _SendMoneyPage extends State {
                         amount: montant,
                         estDepense: true,
                       );
-                      user1!.ajouterTransaction(user1Transaction);
-                      await user1!.save();
-
                       var otherUserTransaction = Transaction(
                         amount: montant,
                         estDepense: false,
                       );
-                      otherUser.ajouterTransaction(otherUserTransaction);
-                      await otherUser.save();
-                    }
-                    UtilisateurBase.init;
-                    setState(() {
-                      montant = 25.00;
-                    });
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.green,
-                          content: Row(
-                            spacing: 8,
-                            children: [
-                              Icon(
-                                Icons.check_box_outlined,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                'transfert réussi',
 
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                ),
+                      user1!.ajouterTransaction(user1Transaction);
+                      otherUser.ajouterTransaction(otherUserTransaction);
+
+                      setState(() {
+                        montant = 25.00;
+                      });
+                      if (utilisateurNom != "") {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              backgroundColor: Colors.green,
+                              content: Row(
+                                children: [
+                                  Icon(
+                                    Icons.check_box_outlined,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'Transfert réussi',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text(
-                                'Ok',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text(
+                                    'Ok',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
                                 ),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
+                              ],
+                            );
+                          },
                         );
-                      },
-                    );
+                      }
+                    }
                   },
                   child: Container(
                     height: 50,
                     width: largeurEcran - 40,
-
                     decoration: BoxDecoration(
                       color: Colors.blue,
                       borderRadius: BorderRadius.all(Radius.circular(15)),

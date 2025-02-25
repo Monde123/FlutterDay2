@@ -31,12 +31,12 @@ class Utilisateur extends HiveObject {
   int compteUsers = DateTime.now().millisecondsSinceEpoch;
 
   @HiveField(4)
-  List<Transaction> transactions = [];
+  HiveList<Transaction>? transactions;
 
   late String usersProfil;
 
-  void ajouterTransaction(Transaction transaction) async{
-    transactions.add(transaction);
+  void ajouterTransaction(Transaction transaction) async {
+    transactions!.add(transaction);
     if (transaction.estDepense) {
       solde -= transaction.amount;
     } else {
@@ -56,9 +56,7 @@ class Utilisateur extends HiveObject {
     } else {
       usersProfil = 'assets/Mask Group.png';
     }
-    
   }
-
 }
 
 class UtilisateurBase {
@@ -89,10 +87,6 @@ class UtilisateurBase {
 
   static Utilisateur? getUtilisateur(String email) {
     return usersBox?.get(email);
-  }
-
-  static Utilisateur? getUtilisateurNom(String nom) {
-    return usersBox?.get(nom);
   }
 
   static List<Utilisateur> getTousLesUtilisateurs() {

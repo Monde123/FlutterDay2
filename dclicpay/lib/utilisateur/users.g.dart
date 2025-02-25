@@ -58,7 +58,7 @@ class UtilisateurAdapter extends TypeAdapter<Utilisateur> {
       solde: fields[1] as double,
       estHomme: fields[2] as bool,
       mail: fields[3] as String,
-    )..transactions = (fields[4] as List).cast<Transaction>();
+    )..transactions = (fields[4] as HiveList?)?.castHiveList();
   }
 
   @override

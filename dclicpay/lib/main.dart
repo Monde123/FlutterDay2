@@ -1,5 +1,6 @@
 // main.dart
 
+import 'package:dclicpay/boxes.dart';
 import 'package:dclicpay/pages/gift.dart';
 import 'package:dclicpay/pages/home.dart';
 import 'package:dclicpay/pages/profil.dart';
@@ -14,9 +15,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
-  Hive.registerAdapter(TransactionAdapter());
+
   Hive.registerAdapter(UtilisateurAdapter());
+  Hive.registerAdapter(TransactionAdapter());
   await UtilisateurBase.init();
+  
   runApp(MyApp());
 }
 

@@ -216,7 +216,7 @@ class _SendMoneyPage extends State {
                     children: [
                       TextField(
                         onChanged: (val) {
-                          mont1 = double.parse(val);
+                          mont1 = double.tryParse(val)??0.0;
                           setState(() {
                             montant = mont1;
                           });
@@ -247,7 +247,7 @@ class _SendMoneyPage extends State {
                             onTap: () {
                               montant >= 0.5
                                   ? setState(() {
-                                    montant = montant - 0.1;
+                                    montant = montant - 0.5;
                                   })
                                   : Text(
                                     '$montant',
@@ -263,7 +263,7 @@ class _SendMoneyPage extends State {
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                montant = montant + 0.1;
+                                montant = montant + 0.5;
                               });
                             },
                             child: Icon(
@@ -293,7 +293,7 @@ class _SendMoneyPage extends State {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    usersBox;
+
                     // Expéditeur
                     var otherUser = UtilisateurBase.getUtilisateur(
                       utilisateurNom,
@@ -311,11 +311,13 @@ class _SendMoneyPage extends State {
                         estDepense: false,
                       );
 
-                      user1!.ajouterTransaction(user1Transaction);
-                      otherUser.ajouterTransaction(otherUserTransaction);
-
+                      user1!.ajouterTransaction(
+                          user1Transaction, UtilisateurBase.transactionBox!);
+                      otherUser.ajouterTransaction(otherUserTransaction,
+                          UtilisateurBase.transactionBox!);
+                    }
                       setState(() {
-                        montant = 25.00;
+                        montant = 25.0;
                       });
                       if (utilisateurNom != "") {
                         showDialog(
@@ -356,7 +358,7 @@ class _SendMoneyPage extends State {
                             );
                           },
                         );
-                      }
+
                     }
                   },
                   child: Container(

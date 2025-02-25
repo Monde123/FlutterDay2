@@ -84,7 +84,9 @@ class _MyHome extends State {
 
           return SizedBox(
             height: 60,
-            child: Row(
+            child:SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+          child:    Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
@@ -152,7 +154,7 @@ class _MyHome extends State {
                   ),
                 ),
               ],
-            ),
+            ),),
           );
         },
       ),

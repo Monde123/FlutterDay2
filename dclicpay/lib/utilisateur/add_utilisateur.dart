@@ -5,6 +5,7 @@ import 'package:dclicpay/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:dclicpay/utilisateur/users.dart';
 
+
 class AjouterUtilisateurPage extends StatefulWidget {
   const AjouterUtilisateurPage({super.key});
 
@@ -73,7 +74,7 @@ class _AjouterUtilisateurPageState extends State<AjouterUtilisateurPage> {
                     await UtilisateurBase.usersBox!.put(newUser.mail, newUser);
                     listeUtilisateurs.add(newUser);
                     var transaction = Transaction(amount: 0, estDepense: false);
-                    newUser.ajouterTransaction(transaction);
+                    newUser.ajouterTransaction(transaction,UtilisateurBase.transactionBox!);
 
                     Navigator.pop(context); // Fermer le formulaire
                   }

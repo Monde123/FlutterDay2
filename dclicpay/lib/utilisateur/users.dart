@@ -35,7 +35,9 @@ class Utilisateur extends HiveObject {
 
   late String usersProfil;
 
-  void ajouterTransaction(Transaction transaction) async {
+  void ajouterTransaction(Transaction transaction,Box<Transaction> transactionBox) async {
+     transactionBox.add(transaction); // Stocker la transaction
+    transactions ??= HiveList(transactionBox);
     transactions!.add(transaction);
     if (transaction.estDepense) {
       solde -= transaction.amount;
@@ -61,9 +63,14 @@ class Utilisateur extends HiveObject {
 
 class UtilisateurBase {
   static Box<Utilisateur>? usersBox;
+  static Box<Transaction>? transactionBox;
 
   static Future<void> init() async {
+  //  Hive.registerAdapter(UtilisateurAdapter());
+   // Hive.registerAdapter(TransactionAdapter());
+
     usersBox = await Hive.openBox<Utilisateur>('utilisateurs');
+    transactionBox = await Hive.openBox<Transaction>('transactions');
     if (usersBox!.isEmpty) {
       var utilisateur1 = Utilisateur(
         nom: 'Moïse',
@@ -79,9 +86,9 @@ class UtilisateurBase {
       );
       await usersBox!.put(utilisateur1.mail, utilisateur1);
       var transaction = Transaction(amount: 0, estDepense: false);
-      utilisateur1.ajouterTransaction(transaction);
+      utilisateur1.ajouterTransaction(transaction,transactionBox!);
       await usersBox!.put(utilisateur2.mail, utilisateur2);
-      utilisateur2.ajouterTransaction(transaction);
+      utilisateur2.ajouterTransaction(transaction,transactionBox!);
     }
   }
 

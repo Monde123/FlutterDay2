@@ -3,7 +3,6 @@
 import 'package:dclicpay/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:dclicpay/utilisateur/users.dart';
-import 'package:dclicpay/boxes.dart';
 
 class SendMoneyPage extends StatefulWidget {
   const SendMoneyPage({super.key});
@@ -16,7 +15,7 @@ class SendMoneyPage extends StatefulWidget {
 
 class _SendMoneyPage extends State {
   int selectedIndex = 0;
-  double montant = 25.0;
+  double montant = 0.0;
   double mont1 = 0.0;
   var user1 = UtilisateurBase.getUtilisateur('moise@gmail.com');
   String utilisateurNom = '';
@@ -216,10 +215,7 @@ class _SendMoneyPage extends State {
                     children: [
                       TextField(
                         onChanged: (val) {
-                          mont1 = double.tryParse(val)??0.0;
-                          setState(() {
-                            montant = mont1;
-                          });
+                          montant = double.tryParse(val) ?? 0.0;
                         },
                         textAlign: TextAlign.center,
                         keyboardType: TextInputType.numberWithOptions(
@@ -232,14 +228,14 @@ class _SendMoneyPage extends State {
                           enabled: true,
                           hintText:
                               '\$'
-                              '$montant',
+                              '''25.0''',
                           hintStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),
                         ),
                       ),
-                      Row(
+                      /* Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         spacing: 30,
                         children: [
@@ -273,7 +269,7 @@ class _SendMoneyPage extends State {
                             ),
                           ),
                         ],
-                      ),
+                      ),*/
                     ],
                   ),
                 ),
@@ -293,7 +289,6 @@ class _SendMoneyPage extends State {
                 ),
                 GestureDetector(
                   onTap: () async {
-
                     // Expéditeur
                     var otherUser = UtilisateurBase.getUtilisateur(
                       utilisateurNom,
@@ -312,10 +307,14 @@ class _SendMoneyPage extends State {
                       );
 
                       user1!.ajouterTransaction(
-                          user1Transaction, UtilisateurBase.transactionBox!);
-                      otherUser.ajouterTransaction(otherUserTransaction,
-                          UtilisateurBase.transactionBox!);
-                    }
+                        user1Transaction,
+                        UtilisateurBase.transactionBox!,
+                      );
+                      otherUser.ajouterTransaction(
+                        otherUserTransaction,
+                        UtilisateurBase.transactionBox!,
+                      );
+
                       setState(() {
                         montant = 25.0;
                       });
@@ -358,9 +357,10 @@ class _SendMoneyPage extends State {
                             );
                           },
                         );
-
+                      }
                     }
                   },
+
                   child: Container(
                     height: 50,
                     width: largeurEcran - 40,

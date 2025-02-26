@@ -2,11 +2,12 @@
 import 'package:dclicpay/pages/sendpage.dart';
 import 'package:flutter/material.dart';
 import 'package:dclicpay/utilisateur/users.dart';
+import 'package:dclicpay/utilisateur/connection.dart';
 
-var user1 = UtilisateurBase.getUtilisateur('moise@gmail.com');
+var user1 = UtilisateurBase.getUtilisateur(signUser);
 var listeUtilisateurs = UtilisateurBase.getTousLesUtilisateurs();
 List<Utilisateur> utilisateursFiltres =
-    listeUtilisateurs.where((user) => user.nom != user1?.nom).toList();
+ listeUtilisateurs.where((user) => user.nom != user1?.nom).toList();
 
 class MyHomeAppBar extends StatelessWidget {
   const MyHomeAppBar({super.key});
@@ -80,81 +81,81 @@ class _MyHome extends State {
 
         itemBuilder: (context, index) {
           var user = listeUtilisateurs[index];
-          int transactionLenght = user.transactions!.length;
 
           return SizedBox(
             height: 60,
-            child:SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-          child:    Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: 200,
-                  child: Row(
-                    spacing: 5,
-                    children: [
-                      CircleAvatar(
-                        radius: 24,
-                        backgroundImage: AssetImage(user.usersProfil),
-                      ),
-                      SizedBox(
-                        height: 50,
+            child: SingleChildScrollView(
+              // scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: 200,
+                    child: Row(
+                      spacing: 5,
+                      children: [
+                        CircleAvatar(
+                          radius: 24,
+                          backgroundImage: AssetImage(user.usersProfil),
+                        ),
+                        SizedBox(
+                          height: 50,
 
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              user.nom,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                user.nom,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                ),
                               ),
-                            ),
-                            Text(
-                              '22 jan 2025',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 12,
+                              Text(
+                                '22 jan 2025',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 12,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 50,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        '\$'
-                        '${user.transactions!.last.amount}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                  SizedBox(
+                    height: 50,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          '\$'
+                          '${user.transactions!.last.amount}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
 
-                          color:
-                              user.transactions!.last.estDepense == true
-                                  ? Colors.red
-                                  : Colors.green,
+                            color:
+                                user.transactions!.last.estDepense == true
+                                    ? Colors.red
+                                    : Colors.green,
+                          ),
                         ),
-                      ),
 
-                      Text(
-                        '22 h 45',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 11,
+                        Text(
+                          '22 h 45',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 11,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),),
+                ],
+              ),
+            ),
           );
         },
       ),
@@ -267,14 +268,23 @@ class _MyHome extends State {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Added card:05',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
+                          user1?.compteUsers != null
+                              ? Text(
+                                '${user1!.compteUsers}',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              )
+                              : Text(
+                                'Account',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
                           Text(
                             'Added card:05',
                             style: TextStyle(
@@ -386,6 +396,7 @@ class _MyHome extends State {
               ],
             ),
             row,
+
             listeUtilisateur,
           ],
         ),

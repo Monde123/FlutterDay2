@@ -1,5 +1,7 @@
 // pages/profil.dart
+
 import 'package:dclicpay/utilisateur/add_utilisateur.dart';
+import 'package:dclicpay/utilisateur/connection.dart';
 import 'package:flutter/material.dart';
 
 class ProfilPage extends StatefulWidget {
@@ -15,7 +17,7 @@ class _ProfilPage extends State {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      spacing: 20,
       children: [
         Center(child: Text('Profil Page')),
         Positioned(
@@ -35,6 +37,25 @@ class _ProfilPage extends State {
               });
             },
           ),
+        ),
+        FloatingActionButton(
+          child: Text(
+            'Se deconnecter',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SignIn()),
+            ).then((_) {
+              setState(() {}); // Rafraîchir la liste après ajout
+            });
+          },
         ),
       ],
     );

@@ -1,10 +1,10 @@
 // main.dart
 
-import 'package:dclicpay/boxes.dart';
 import 'package:dclicpay/pages/gift.dart';
 import 'package:dclicpay/pages/home.dart';
 import 'package:dclicpay/pages/profil.dart';
 import 'package:dclicpay/pages/wallets.dart';
+import 'package:dclicpay/utilisateur/connection.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -19,19 +19,28 @@ void main() async {
   Hive.registerAdapter(UtilisateurAdapter());
   Hive.registerAdapter(TransactionAdapter());
   await UtilisateurBase.init();
-  
+
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
-  State<StatefulWidget> createState() {
-    return _MyApp();
+  Widget build(BuildContext context) {
+    return MaterialApp(home: SignIn());
   }
 }
 
-class _MyApp extends State<MyApp> {
+class MyAppHome extends StatefulWidget {
+  const MyAppHome({super.key});
+  @override
+  State<StatefulWidget> createState() {
+    return _MyAppHome();
+  }
+}
+
+class _MyAppHome extends State<MyAppHome> {
   int tabIndex = 0;
   final pages = [MyHome(), Wallets(), Gift(), ProfilPage()];
 
@@ -49,38 +58,36 @@ class _MyApp extends State<MyApp> {
   ];
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: appBarListe[tabIndex]),
-        body: pages[tabIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              activeIcon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_balance_wallet_outlined),
-              label: 'wallet',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.card_giftcard_sharp),
-              label: 'gift',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
-              label: 'profil',
-            ),
-          ],
+    return Scaffold(
+      appBar: AppBar(title: appBarListe[tabIndex]),
+      body: pages[tabIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance_wallet_outlined),
+            label: 'wallet',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.card_giftcard_sharp),
+            label: 'gift',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'profil',
+          ),
+        ],
 
-          currentIndex: tabIndex,
+        currentIndex: tabIndex,
 
-          unselectedItemColor: const Color.fromARGB(221, 128, 127, 127),
-          selectedItemColor: Colors.blue,
+        unselectedItemColor: const Color.fromARGB(221, 128, 127, 127),
+        selectedItemColor: Colors.blue,
 
-          onTap: onItemTapped,
-        ),
+        onTap: onItemTapped,
       ),
     );
   }

@@ -1,6 +1,7 @@
 // pages/sendpage.dart
 
 import 'package:dclicpay/pages/home.dart';
+import 'package:dclicpay/utilisateur/connection.dart';
 import 'package:flutter/material.dart';
 import 'package:dclicpay/utilisateur/users.dart';
 
@@ -17,7 +18,7 @@ class _SendMoneyPage extends State {
   int selectedIndex = 0;
   double montant = 0.0;
   double mont1 = 0.0;
-  var user1 = UtilisateurBase.getUtilisateur('moise@gmail.com');
+  var user1 = UtilisateurBase.getUtilisateur(signUser);
   String utilisateurNom = '';
   final cardIcone = [
     'assets/visa-logo.png',
@@ -235,41 +236,6 @@ class _SendMoneyPage extends State {
                           ),
                         ),
                       ),
-                      /* Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        spacing: 30,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              montant >= 0.5
-                                  ? setState(() {
-                                    montant = montant - 0.5;
-                                  })
-                                  : Text(
-                                    '$montant',
-                                    style: TextStyle(color: Colors.red),
-                                  );
-                            },
-                            child: Icon(
-                              Icons.remove_circle_outline,
-                              color: Colors.red,
-                              size: 30,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                montant = montant + 0.5;
-                              });
-                            },
-                            child: Icon(
-                              Icons.add_circle_outline,
-                              color: Colors.green,
-                              size: 30,
-                            ),
-                          ),
-                        ],
-                      ),*/
                     ],
                   ),
                 ),

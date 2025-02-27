@@ -61,6 +61,7 @@ class _SignInState extends State<SignIn> {
             ),
             TextFormField(
               controller: emailController,
+
               decoration: InputDecoration(
                 hintText: 'Entrez votre adresse mail',
               ),
@@ -70,6 +71,7 @@ class _SignInState extends State<SignIn> {
                     !value.contains('@gmail.com')) {
                   return "Entrez un mail valide";
                 }
+
                 return null;
               },
             ),
